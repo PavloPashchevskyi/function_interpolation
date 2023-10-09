@@ -37,6 +37,9 @@ class Bessel : public IFormula {
   }
   Bessel(unsigned n, double *X, double *Y) : IFormula(n/*2 * n + 2*/, X, Y) {
   }
+  double q(double x) {
+   return (x - X[rangeMiddle]) / step;
+  }
   double f(double x) {
    return this->formula(x);
   }

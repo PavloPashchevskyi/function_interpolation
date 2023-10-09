@@ -35,7 +35,12 @@ class Lagrange : public IFormula {
    return P * S;
   }
  public:
+  Lagrange() : IFormula() {
+  }
   Lagrange(unsigned n, double *X, double *Y) : IFormula(n, X, Y) {
+  }
+  double q(double x) {
+   return 0.0;
   }
   double f(double x) {
    return this->formula(x);

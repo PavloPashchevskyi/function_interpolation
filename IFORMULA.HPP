@@ -81,9 +81,7 @@ class IFormula {
    }
    step = this->getMinStep();
   }
-  double q(double x) {
-   return (x - X[rangeMiddle]) / step;
-  }
+  virtual double q(double x) = 0;
   unsigned isStepConstant() {
    double max = 3.4e-38, min = 3.4e+38;
    for (unsigned i = 0; i < pointsQuantity; i++) {
@@ -94,7 +92,6 @@ class IFormula {
      min = X[i];
     }
    }
-   printf("min = %f, max = %f, isStepConstant = %d\n", min, max, ((max - min) / (pointsQuantity - 1)) == step);
    return ((max - min) / (pointsQuantity - 1)) == step;
   }
   char* outputDiffsTable() {
