@@ -1,5 +1,5 @@
 #include "BESSEL.HPP"
-#include "IFUSAGE.HPP"
+#include "STRATEGY.HPP"
 
 int main() {
  unsigned variablesQuantity, valuesQuantity;
@@ -50,7 +50,29 @@ int main() {
   for (unsigned i = 0; i < variablesQuantity; i++) {
    scanf("%lf", (x + i));
   }
-  double z = IFUsage<Bessel>::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  printf("Which formula would you like to use? Press one of the following\n");
+  printf(" 1. The first interpolation formula by Newton,\n");
+  printf(" 2. The second interpolation formula by Newton,\n");
+  printf(" 3. Interpolation formula by Bessel,\n");
+  printf(" 4. Interpolation formula by Lagrange,\n");
+  printf(" 5. Auto.\n");
+  c = getch();
+  double z;
+  if (c == '1') {
+   z = IFUsage<Newton>::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  }
+  if (c == '2') {
+   z = IFUsage<Newton2>::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  }
+  if (c == '3') {
+   z = IFUsage<Bessel>::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  }
+  if (c == '4') {
+   z = IFUsage<Lagrange>::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  }
+  if (c == '5') {
+   z = Strategy::apply(variablesQuantity, valuesQuantity, X, Y, x);
+  }
   char strRes[45], strTemp[19];
   strcpy(strRes, "f(");
   for (i = 0; i < variablesQuantity; i++) {
