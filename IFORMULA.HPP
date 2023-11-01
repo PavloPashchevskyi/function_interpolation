@@ -111,7 +111,7 @@ class IFormula {
   virtual ~IFormula() {
    delete [] X;
    for (unsigned j = 0; j < pointsQuantity; j++) {
-    delete Y[j];
+    delete [] Y[j];
    }
    delete [] Y;
   }
