@@ -1,9 +1,8 @@
 #ifndef IFUSAGE_HPP
 #define IFUSAGE_HPP
 
-#include "IFORMULA.HPP"
+#include "IFACTORY.HPP"
 
-template <class T>
 class IFUsage {
  private:
   static double* transpose(
@@ -26,7 +25,7 @@ class IFUsage {
   double *Y,
   double x
   ) {
-   IFormula *diffTable = new T(valuesQuantity, X, Y);
+   IFormula *diffTable = IFactory::create(valuesQuantity, X, Y, x);
    double y = diffTable->f(x);
    delete diffTable;
    return y;
