@@ -1,13 +1,23 @@
 #ifndef IFACTORY_HPP
 #define IFACTORY_HPP
 
-#include "../INTERPOL/LAGRANGE.HPP"
-#include "../INTERPOL/NEWTON.HPP"
-#include "../INTERPOL/BESSEL.HPP"
-#include "../INTERPOL/NEWTON2.HPP"
+#include "LAGRANGE.HPP"
+#include "NEWTON.HPP"
+#include "BESSEL.HPP"
+#include "NEWTON2.HPP"
 
 class IFactory {
  private:
+  static unsigned isSortedAsc(double *X, unsigned n) {
+   for (unsigned i = 0; i < n; i++) {
+    for (unsigned j = i + 1; j < n; j++) {
+     if (*(X+j) < *(X+i)) {
+      return 0;
+     }
+    }
+   }
+   return 1;
+  }
   static double* sort(double *X, unsigned n) {
    double temp;
    for (unsigned i = 0; i < n; i++) {
@@ -22,7 +32,9 @@ class IFactory {
    return X;
   }
   static unsigned calcTheNearestNumberInArray(unsigned n,double *X,double x){
-   X = sort(X, n);
+   if (!isSortedAsc(X, n)) {
+    X = sort(X, n);
+   }
    unsigned low = 0;
    unsigned high = n - 1;
    unsigned mid = (unsigned) (n - 1) / 2.;
@@ -36,30 +48,14 @@ class IFactory {
    }
    return mid;
   }
-  static double getMinStep(unsigned n, double *X) {
-   double minDiff = 3.4e+38, diff;
-   for (unsigned i = 1; i < n; i++) {
-    diff = X[i] - X[i - 1];
-    if (diff < minDiff) {
-     minDiff = diff;
-    }
-   }
-   return minDiff;
-  }
   static unsigned isStepConstant(unsigned n, double *X) {
    if (n <= 2) {
     return 1;
    }
-   double max = 3.4e-38, min = 3.4e+38;
-   for (unsigned i = 0; i < n; i++) {
-    if (X[i] > max) {
-     max = X[i];
-    }
-    if (X[i] < min) {
-     min = X[i];
-    }
+   if (!isSortedAsc(X, n)) {
+    X = sort(X, n);
    }
-   return ((max - min) / (n - 1)) == getMinStep(n, X);
+   return (X[2] - X[1]) == (X[1] - X[0]);
   }
  public:
   static IFormula* create(

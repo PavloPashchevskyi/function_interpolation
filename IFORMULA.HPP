@@ -5,6 +5,17 @@
 #include <string.h>
 #include <stdio.h>
 
+unsigned isSortedAsc(unsigned n, double *x) {
+ for (unsigned i = 0; i < n; i++) {
+  for (unsigned j = i + 1; j < n; j++) {
+   if (*(x+j) < *(x+i)) {
+    return 0;
+   }
+  }
+ }
+ return 1;
+}
+
 void sortAsc(unsigned n, double **x, double **y) {
  double temp;
  for (unsigned i = 0; i < n; i++) {
@@ -69,7 +80,9 @@ class IFormula {
    if ((pointsQuantity - 2) % 2 != 0) {
     rangeMiddle += 1;
    }
-   sortAsc(n, &dblX, &dblY);
+   if (!isSortedAsc(n, dblX)) {
+    sortAsc(n, &dblX, &dblY);
+   }
    this->X = new double [pointsQuantity];
    this->Y = new double* [pointsQuantity];
    for (unsigned j = 0; j < pointsQuantity; j++) {
